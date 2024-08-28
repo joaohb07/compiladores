@@ -50,15 +50,19 @@ void F(void)
         match(')');
         break;
     case OCT:
+	printf(" id ");
         match(OCT);
         break;
     case HEX:
+	printf(" hex ");
         match(HEX);
         break;
     case DEC:
+	printf(" dec ");
         match(DEC);
         break;
     default:
+	printf(" id ");
         match(ID);
     }
 }

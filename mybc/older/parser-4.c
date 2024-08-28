@@ -40,12 +40,13 @@ _F:
         match(ID);
     }
 
-    if (lookahead == '*' || lokahead == '/')
+    if (lookahead == '*' || lookahead == '/')
     {
 	match(lookahead); goto _F;
     }
  
-    if (lookahead == '+' || lokahead == '-') 
+    if (lookahead == '+' || lookahead == '-') 
+
     {
 	match(lookahead); goto _T;
     }
@@ -57,7 +58,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch\n");
+        fprintf(stderr, "token mismatch at line %d\n",linenum);
         exit(-3);
     }
 }

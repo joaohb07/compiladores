@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <lexer.h>
 
-int linenum = 0;
+int linenum = 1;
 
 // ID = [A-Za-z][A-Za-z0-9]*
 int isID(FILE *tape)

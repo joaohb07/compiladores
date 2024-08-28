@@ -15,11 +15,53 @@ int lookahead;
 // oplus = '+' || '-'
 void E(void)
 {
-    if (lookahead == '+' || lookahead == '-')
+    int signal = 0;
+    int oplus = 0; 	
+    if (lookahead == '+' || lookahead == '-'){        
+        !(lookahead == '-') || (signal = lookahead);
         match(lookahead);
+    }
 _T:
+    T();
+    if (signal){
+        printf(" neg ",signal);
+        signal = 0;
+    }
+    if (oplus){
+        printf(" %c ",oplus);
+	oplus = 0;
+    }
+    
+   if (lookahead == '+' || lookahead == '-') 
+     {
+	 oplus = lookahead;
+	 match(lookahead);
+	 goto _T;
+     }
+}
 
+// T -> F Q
+void T(void)
+{
+    int otimes = 0;
 _F:
+    F();
+    if (otimes){
+        printf(" %c ",otimes);
+	otimes = 0;
+     }
+
+    if (lookahead == '*' || lookahead == '/')
+    {
+        otimes = lookahead;
+	match(lookahead);
+	goto _F;
+    };
+}
+
+// F -> (E) | DEC | ID
+void F(void)
+{
     switch (lookahead)
     {
     case '(':
@@ -28,27 +70,20 @@ _F:
         match(')');
         break;
     case OCT:
+	printf(" id ");
         match(OCT);
         break;
     case HEX:
+	printf(" hex ");
         match(HEX);
         break;
     case DEC:
+	printf(" dec ");
         match(DEC);
         break;
     default:
+	printf(" id ");
         match(ID);
-    }
-
-    if (lookahead == '*' || lookahead == '/')
-    {
-	match(lookahead); goto _F;
-    }
- 
-    if (lookahead == '+' || lookahead == '-') 
-
-    {
-	match(lookahead); goto _T;
     }
 }
 
@@ -58,7 +93,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch at line %d\n",linenum);
+        fprintf(stderr, "token mismatch\n");
         exit(-3);
     }
 }

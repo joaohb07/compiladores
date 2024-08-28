@@ -9,6 +9,6 @@ int main()
    source = stdin;
    lookahead = gettoken(source);
    E();
-   printf("%d lines read\n", linenum);
+   printf("\n");
    return 0;
 }
