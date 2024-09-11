@@ -4,7 +4,6 @@
 #include <lexer.h>
 
 int linenum = 1;
-
 char lexeme[MAXIDLEN + 1];
 
 // ID = [A-Za-z][A-Za-z0-9]*
@@ -24,6 +23,7 @@ int isID(FILE *tape)
         return ID;
     }
     ungetc(lexeme[i], tape);
+    lexeme[i] = 0;
     return 0;
 }
 
@@ -47,6 +47,7 @@ int isDEC(FILE *tape)
         return DEC;
     }
     ungetc(lexeme[i], tape);
+    lexeme[i] = 0;
     return 0;
 }
 

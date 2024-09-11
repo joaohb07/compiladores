@@ -15,6 +15,8 @@ int lookahead;
 // oplus = '+' || '-'
 void E(void)
 {
+    int signal = 0;
+    int oplus = 0;
     if (lookahead == '+' || lookahead == '-')
         match(lookahead);
 _T:
@@ -42,13 +44,15 @@ _F:
 
     if (lookahead == '*' || lookahead == '/')
     {
-	match(lookahead); goto _F;
+        match(lookahead);
+        goto _F;
     }
- 
-    if (lookahead == '+' || lookahead == '-') 
+
+    if (lookahead == '+' || lookahead == '-')
 
     {
-	match(lookahead); goto _T;
+        match(lookahead);
+        goto _T;
     }
 }
 
@@ -58,7 +62,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch at line %d\n",linenum);
+        fprintf(stderr, "token mismatch at line %d\n", linenum);
         exit(-3);
     }
 }
