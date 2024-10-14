@@ -1,3 +1,16 @@
+/***************************************************
+ * Compiladores - Noturno - 2024
+ * Professor Eraldo Pereira Marinho
+ * 
+ * Mybc
+ * 
+ * Grupo:
+ * Cristian Santos de Castro
+ * João Henrique Botelho
+ * João Pedro Brum Terra
+ * 
+ *  //descrição do parser.c
+ ***************************************************/
 #include <lexer.h>
 #include <parser.h>
 int lookahead;
@@ -15,29 +28,25 @@ int lookahead;
 // oplus = '+' || '-'
 void E(void)
 {
-    /**/int signal = 0;/**/
-    /**/int oplus = 0;/**/
+    /*E0*/ int oplus = 0; /*E0*/
     if (lookahead == '+' || lookahead == '-')
     {
-        !(lookahead == '-') || (signal = lookahead);
+        !(lookahead == '-') || (oplus = lookahead);
         match(lookahead);
     }
 _T:
     T();
-    if (signal)
-    {
-        printf(" neg ", signal);
-        signal = 0;
-    }
-    /**/if (oplus)
+    /*E1*/
+    if (oplus)
     {
         printf(" %c ", oplus);
         oplus = 0;
-    }/**/
+    }
+    /*E1*/
 
     if (lookahead == '+' || lookahead == '-')
     {
-        /**/oplus = lookahead;/**/
+        /*E2*/ oplus = lookahead; /*E2*/
         match(lookahead);
         goto _T;
     }
@@ -46,18 +55,21 @@ _T:
 // T -> F Q
 void T(void)
 {
-    int otimes = 0;
+    /*T0*/ int otimes = 0; /*T0*/
 _F:
     F();
-    /**/if (otimes)
+
+    /*T1*/
+    if (otimes)
     {
         printf(" %c ", otimes);
         otimes = 0;
-    }/**/
+    }
+    /*T1*/
 
     if (lookahead == '*' || lookahead == '/')
     {
-        /**/otimes = lookahead;/**/
+        /*T2*/ otimes = lookahead; /*T2*/
         match(lookahead);
         goto _F;
     };
@@ -74,19 +86,19 @@ void F(void)
         match(')');
         break;
     case OCT:
-        /**/printf(" %s", lexeme);/**/
+        /*F0*/ printf(" %s", lexeme); /*F0*/
         match(OCT);
         break;
     case HEX:
-        /**/printf(" %s", lexeme);/**/
+        /*F0*/ printf(" %s", lexeme); /*F0*/
         match(HEX);
         break;
     case DEC:
-        /**/printf(" %s", lexeme);/**/
+        /*F0*/ printf(" %s", lexeme); /*F0*/
         match(DEC);
         break;
     default:
-        /**/printf(" %s", lexeme);/**/
+        /*F0*/ printf(" %s", lexeme); /*F0*/
         match(ID);
     }
 }

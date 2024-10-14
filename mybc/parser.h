@@ -1,3 +1,16 @@
+/***************************************************
+ * Compiladores - Noturno - 2024
+ * Professor Eraldo Pereira Marinho
+ * 
+ * Mybc
+ * 
+ * Grupo:
+ * Cristian Santos de Castro
+ * João Henrique Botelho
+ * João Pedro Brum Terra
+ * 
+ *  //descrição do parser.h
+ ***************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 
