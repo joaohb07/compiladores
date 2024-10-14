@@ -15,8 +15,8 @@ int lookahead;
 // oplus = '+' || '-'
 void E(void)
 {
-    int signal = 0;
-    int oplus = 0;
+    /**/int signal = 0;/**/
+    /**/int oplus = 0;/**/
     if (lookahead == '+' || lookahead == '-')
     {
         !(lookahead == '-') || (signal = lookahead);
@@ -29,15 +29,15 @@ _T:
         printf(" neg ", signal);
         signal = 0;
     }
-    if (oplus)
+    /**/if (oplus)
     {
         printf(" %c ", oplus);
         oplus = 0;
-    }
+    }/**/
 
     if (lookahead == '+' || lookahead == '-')
     {
-        oplus = lookahead;
+        /**/oplus = lookahead;/**/
         match(lookahead);
         goto _T;
     }
@@ -49,15 +49,15 @@ void T(void)
     int otimes = 0;
 _F:
     F();
-    if (otimes)
+    /**/if (otimes)
     {
         printf(" %c ", otimes);
         otimes = 0;
-    }
+    }/**/
 
     if (lookahead == '*' || lookahead == '/')
     {
-        otimes = lookahead;
+        /**/otimes = lookahead;/**/
         match(lookahead);
         goto _F;
     };
@@ -74,19 +74,19 @@ void F(void)
         match(')');
         break;
     case OCT:
-        printf(" %s", lexeme);
+        /**/printf(" %s", lexeme);/**/
         match(OCT);
         break;
     case HEX:
-        printf(" %s", lexeme);
+        /**/printf(" %s", lexeme);/**/
         match(HEX);
         break;
     case DEC:
-        printf(" %s", lexeme);
+        /**/printf(" %s", lexeme);/**/
         match(DEC);
         break;
     default:
-        printf(" %s", lexeme);
+        /**/printf(" %s", lexeme);/**/
         match(ID);
     }
 }
