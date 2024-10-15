@@ -1,14 +1,14 @@
 /***************************************************
  * Compiladores - Noturno - 2024
  * Professor Eraldo Pereira Marinho
- * 
+ *
  * Mybc
- * 
+ *
  * Grupo:
  * Cristian Santos de Castro
  * João Henrique Botelho
  * João Pedro Brum Terra
- * 
+ *
  *  //descrição do lexer.c
  ***************************************************/
 #include <stdio.h>
@@ -29,7 +29,7 @@ int isID(FILE *tape)
         ++i;
         while (isalnum(lexeme[i] = getc(tape)))
             ++i;
-        
+
         ungetc(lexeme[i], tape);
         lexeme[i] = 0;
 
@@ -72,9 +72,11 @@ int isOCT(FILE *tape)
     if (lexeme[i] == '0')
     {
         ++i;
-        while (lexeme[i] >= '0' && lexeme[i] <= '7'){
-            lexeme[i] = getc(tape);
+        lexeme[i] = getc(tape);
+        while (lexeme[i] >= '0' && lexeme[i] <= '7')
+        {
             ++i;
+            lexeme[i] = getc(tape);
         }
         ungetc(lexeme[i], tape);
         lexeme[i] = 0;
@@ -91,7 +93,6 @@ int isHEX(FILE *tape)
     int i = 0;
     lexeme[i] = getc(tape);
     if (lexeme[i] == '0')
-
     {
         ++i;
         lexeme[i] = getc(tape);
