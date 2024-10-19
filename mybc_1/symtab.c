@@ -12,6 +12,7 @@
  *  //descrição do symtab.c
  ***************************************************/
 #include <string.h>
+#include <stdlib.h>
 #include <symtab.h>
 
 double vmem[SYMTABSIZE];
@@ -23,6 +24,10 @@ int symtab_next_entry = 0;
 */
 int lookup(char *varname)
 {
+    if (strcmp(varname, "quit") == 0 || strcmp(varname, "QUIT") == 0)
+    {
+        exit(1);
+    }
     int i = 0;
     for (i = 0; i < symtab_next_entry; i++)
     {
@@ -59,7 +64,7 @@ void store(char *varname, double value)
 double recall(char *varname)
 {
     int i = lookup(varname);
-    
+
     if (i < 0)
     {
         return 0.0;

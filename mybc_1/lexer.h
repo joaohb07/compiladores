@@ -26,5 +26,4 @@ enum
 };
 
 extern char lexeme[];
-extern int linenum;
 extern int gettoken(FILE *source);

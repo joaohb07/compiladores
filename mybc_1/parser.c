@@ -135,7 +135,11 @@ void F(void)
         break;
     case NUM:
         /*1*/ printf("\tmov %s, acc\n", lexeme); /*1*/
+        acc = strtod(lexeme, NULL);
         match(NUM);
+        break;
+    case ';':
+        match(';');
         break;
     default:
         /*2*/ strcpy(varname, lexeme); /*2*/
@@ -145,7 +149,7 @@ void F(void)
             // L-value (variavel de atribuição)
             match(ASGN);
             E();
-            /*3*/ printf("\tstore acc,%s\n", varname); /*3*/
+            /*3*/ printf("\tstore acc,%s\t%f\n", varname, acc); /*3*/
             store(varname, acc);
         }
         else
@@ -167,7 +171,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch, expected %d got %c\n", expected, lookahead);
+        fprintf(stderr, "token mismatch: expected %d, got %c ascii(%d)\n", expected, lookahead, lookahead);
         exit(-3);
     }
 }

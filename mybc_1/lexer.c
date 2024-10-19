@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <lexer.h>
 
-int linenum = 1;
 char lexeme[MAXIDLEN + 1];
 
 // ID = [A-Za-z][A-Za-z0-9]*
@@ -155,8 +154,11 @@ void skipspaces(FILE *tape)
     int head;
     while (isspace(head = getc(tape)))
     {
-        if (head == '\n')
-            linenum++;
+        if (head == '\n'){
+            ungetc(';', tape);
+            return;
+
+        }
     };
     ungetc(head, tape);
 }
