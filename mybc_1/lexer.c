@@ -51,11 +51,12 @@ int isASGN(FILE *tape)
         lexeme[i] = getc(tape);
         if (lexeme[i] == '=')
         {
-            ungetc(lexeme[i], tape);
+            // ungetc(lexeme[i], tape);
             lexeme[i] = 0;
             return ASGN;
         }
         ungetc(lexeme[i], tape);
+        lexeme[i] = 0;
         --i;
     }
     ungetc(lexeme[i], tape);
@@ -97,8 +98,6 @@ int isNUM(FILE *tape)
     // enquanto isNUM Não é implementado, apenas para testes usaremos a logica de isDEC com o retorno modificado
     return isDEC(tape);
 }
-
-
 
 /*
 
@@ -166,12 +165,20 @@ int gettoken(FILE *source)
 {
     int token;
     skipspaces(source);
-    if ((token = isNUM(source)))
-        return token;
     if ((token = isID(source)))
+    {
         return token;
+    }
+    if ((token = isNUM(source)))
+    {
+
+        return token;
+    }
     if ((token = isASGN(source)))
+    {
+
         return token;
+    }
     token = getc(source);
     return token;
 }

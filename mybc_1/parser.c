@@ -167,7 +167,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch\n");
+        fprintf(stderr, "token mismatch, expected %d got %c\n", expected, lookahead);
         exit(-3);
     }
 }
