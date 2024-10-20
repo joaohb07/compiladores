@@ -11,6 +11,7 @@
  *
  ***************************************************/
 #include <stdio.h>
+#include <math.h>
 #include <parser.h>
 #include <lexer.h>
 
@@ -23,6 +24,14 @@ int main()
    while (1)
    {
       E();
+      if (acc == floor(acc))
+      {
+         printf("%.0f\n", acc);
+      }
+      else
+      {
+         printf("%f\n", acc);
+      }
    }
 
    return 0;
