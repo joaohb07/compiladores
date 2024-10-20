@@ -9,7 +9,6 @@
  * João Henrique Botelho
  * João Pedro Brum Terra
  *
- *  //descrição do lexer.c
  ***************************************************/
 #include <stdio.h>
 #include <ctype.h>

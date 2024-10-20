@@ -9,7 +9,6 @@
  * João Henrique Botelho
  * João Pedro Brum Terra
  *
- *  //descrição do lexer.h
  ***************************************************/
 #include <stdio.h>
 #define MAXIDLEN 32

@@ -9,7 +9,6 @@
  * João Henrique Botelho
  * João Pedro Brum Terra
  * 
- *  //descrição do parser.h
  ***************************************************/
 #include <stdio.h>
 #include <stdlib.h>

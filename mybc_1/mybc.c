@@ -9,7 +9,6 @@
  * João Henrique Botelho
  * João Pedro Brum Terra
  *
- *  //descrição do mybc.c
  ***************************************************/
 #include <stdio.h>
 #include <parser.h>

@@ -9,7 +9,6 @@
  * João Henrique Botelho
  * João Pedro Brum Terra
  *
- *  //descrição do parser.c
  ***************************************************/
 #include <lexer.h>
 #include <string.h>
@@ -34,18 +33,8 @@ void push(double val)
 int lookahead;
 double acc; // acumulador
 
-/* TO DO: ATUALIZAR ESTA GRAMATICA ↓
-   LL(1) grammar:
- *
- *  E -> ['+'|'-'] T R
- *  T -> F Q
- *  F -> (E) | DEC | ID
- *  R -> +T R | -T R | <>
- *  Q -> *F Q | /F Q | <>
- */
-
-// E -> [oplus] T R
 // oplus = '+' || '-'
+// E -> [oplus] T {oplus T}
 void E(void)
 {
     /*0*/ int oplus = 0, signal = 0; /*0*/
@@ -92,7 +81,7 @@ _T:
     }
 }
 
-// T -> F Q
+// T -> F {otimes F}
 void T(void)
 {
     /*0*/ int otimes = 0; /*0*/
@@ -121,7 +110,7 @@ _F:
     };
 }
 
-// F -> (E) | DEC | ID
+// F -> (E) | NUM | ID
 void F(void)
 {
     /*0*/ char varname[MAXIDLEN + 1]; /*0*/

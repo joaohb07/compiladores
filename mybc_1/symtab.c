@@ -9,7 +9,6 @@
  * João Henrique Botelho
  * João Pedro Brum Terra
  *
- *  //descrição do symtab.c
  ***************************************************/
 #include <string.h>
 #include <stdlib.h>
