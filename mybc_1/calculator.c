@@ -15,10 +15,13 @@
 #include <math.h>
 #include <calculator.h>
 
-double acc;              // Acumulador
-double stack[STACKSIZE]; // Pilha
-int sp = -1;             // Inicializado com -1, pois a pilha está vazia
+double acc;            
+double stack[STACKSIZE];
+int sp = -1;            
 
+/*
+    pop desempilha
+*/
 double pop()
 {
     if (sp == -1)
@@ -31,6 +34,9 @@ double pop()
     return result; // Retorna o valor e decrementa sp
 }
 
+/*
+    push empilha
+*/
 void push(double val)
 {
     if (sp == STACKSIZE - 1)
@@ -41,7 +47,9 @@ void push(double val)
     ++sp;
     stack[sp] = val; // Incrementa sp e armazena o valor
 }
-
+/*
+    calc realiza as quatro operações basicas + - * e /
+*/
 double calc(char signal, double acc, double stackValue)
 {
     switch (signal)
@@ -61,6 +69,10 @@ double calc(char signal, double acc, double stackValue)
     }
 };
 
+
+/*
+    print_acc imprime o valor do acumulador
+*/
 void print_acc()
 {
     if (acc == floor(acc))

@@ -69,6 +69,7 @@ _T:
     }
 }
 
+// times = '*' || '/'
 // T -> F {otimes F}
 void T(void)
 {
@@ -138,6 +139,9 @@ void F(void)
     }
 }
 
+/*
+    match compara o valor de lookahead com um valor esperado
+*/
 void match(int expected)
 {
     if (lookahead == expected)

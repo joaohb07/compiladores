@@ -20,7 +20,7 @@ enum
     OCT,
     HEX,
     NUM,
-    ASGN, // ASGN = ":="
+    ASGN,
 };
 
 extern char lexeme[];

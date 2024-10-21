@@ -10,10 +10,13 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include<constants.h>
-extern double acc;              // Acumulador
-extern double stack[STACKSIZE]; // Pilha
-extern int sp;                  // Índice do topo da pilha
+#include <constants.h>
+/* Acumulador*/
+extern double acc;
+/* Pilha*/
+extern double stack[STACKSIZE];
+/*ponteiro do topo da pilha*/
+extern int sp;
 
 void push(double val);
 double pop();

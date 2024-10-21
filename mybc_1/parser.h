@@ -15,6 +15,8 @@
 
 extern FILE *source;
 extern void match(int expected);
+
+/* proximo simbolo a ser processado */
 extern int lookahead;
 
 extern void E(void);
