@@ -23,10 +23,6 @@ int symtab_next_entry = 0;
 */
 int lookup(char *varname)
 {
-    if (strcmp(varname, "quit") == 0 || strcmp(varname, "QUIT") == 0)
-    {
-        exit(1);
-    }
     int i = 0;
     for (i = 0; i < symtab_next_entry; i++)
     {

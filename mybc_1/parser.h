@@ -16,7 +16,6 @@
 extern FILE *source;
 extern void match(int expected);
 extern int lookahead;
-extern double acc;
 
 extern void E(void);
 extern void T(void);
