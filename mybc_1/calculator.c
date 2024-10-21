@@ -1,8 +1,19 @@
+/***************************************************
+ * Compiladores - Noturno - 2024
+ * Professor Eraldo Pereira Marinho
+ *
+ * Mybc
+ *
+ * Grupo:
+ * Cristian Santos de Castro
+ * João Henrique Botelho
+ * João Pedro Brum Terra
+ *
+ ***************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <calculator.h>
-
 
 double acc;              // Acumulador
 double stack[STACKSIZE]; // Pilha
