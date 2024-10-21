@@ -1,24 +1,24 @@
 /***************************************************
  * Compiladores - Noturno - 2024
  * Professor Eraldo Pereira Marinho
- * 
+ *
  * Mybc
- * 
+ *
  * Grupo:
  * Cristian Santos de Castro
  * João Henrique Botelho
  * João Pedro Brum Terra
- * 
+ *
  ***************************************************/
-#include <stdio.h>
-#include <stdlib.h>
+#include <constants.h>
+/* Acumulador*/
+extern double acc;
+/* Pilha*/
+extern double stack[STACKSIZE];
+/*ponteiro do topo da pilha*/
+extern int sp;
 
-extern FILE *source;
-extern void match(int expected);
-
-/* proximo simbolo a ser processado */
-extern int lookahead;
-
-extern void E(void);
-extern void T(void);
-extern void F(void);
+void push(double val);
+double pop();
+void print_acc();
+double calc(char signal, double acc, double stackValue);

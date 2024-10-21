@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <lexer.h>
 
-char lexeme[MAXIDLEN + 1];  // Armazena o valor numérico lido como string
+char lexeme[MAXIDLEN + 1]; 
 
 // ID = [A-Za-z][A-Za-z0-9]*
 int isID(FILE *tape)
@@ -61,55 +61,51 @@ int isASGN(FILE *tape)
     return 0;
 }
 
+// NUM = [0-9]*|([0-9]*)"."(([0-9]*)|"e"("+"|"-")[0-9]*)[0-9]*|([0-9]*)"."(([0-9]*)|"e"("+"|"-")[0-9])
 int isNUM(FILE *tape)
 {
     int i = 0;
     char c;
 
-    // Primeira leitura de dígitos ou ponto
     c = getc(tape);
     if (isdigit(c) || c == '.')
     {
         lexeme[i++] = c;
 
-        // Continua lendo dígitos
         while ((c = getc(tape)) && (isdigit(c) || c == '.'))
         {
             lexeme[i++] = c;
         }
 
-        // Verifica se encontrou notação científica
         if (c == 'e' || c == 'E')
         {
             lexeme[i++] = c;
             c = getc(tape);
 
-            // Pode ser seguido de '+' ou '-' no expoente
             if (c == '+' || c == '-')
             {
                 lexeme[i++] = c;
                 c = getc(tape);
             }
 
-            // Continua lendo os dígitos do expoente
             while (isdigit(c))
             {
                 lexeme[i++] = c;
                 c = getc(tape);
             }
         }
-
-        ungetc(c, tape); // Devolve o último caractere não numérico
-        lexeme[i] = '\0'; // Finaliza a string em lexeme
+        ungetc(c, tape);
+        lexeme[i] = '\0';
         return NUM;
     }
-
-    // Se não for um número válido, devolve o caractere lido e retorna 0
     ungetc(c, tape);
     lexeme[0] = '\0';
     return 0;
 }
 
+/*
+    skipspaces ignora os espaços em branco e troca fim de linha por ; para delimitar expressões
+*/
 void skipspaces(FILE *tape)
 {
     int head;
@@ -124,6 +120,9 @@ void skipspaces(FILE *tape)
     ungetc(head, tape);
 }
 
+/*
+    gettoken verifica se o tipo do proximo simbolo a ser processado
+*/
 int gettoken(FILE *source)
 {
     int token;

@@ -11,8 +11,7 @@
  *
  ***************************************************/
 #include <stdio.h>
-#define MAXIDLEN 32
-#define SYMTABSIZE 256
+#include <constants.h>
 
 enum
 {
@@ -21,7 +20,7 @@ enum
     OCT,
     HEX,
     NUM,
-    ASGN, // ASGN = ":="
+    ASGN,
 };
 
 extern char lexeme[];

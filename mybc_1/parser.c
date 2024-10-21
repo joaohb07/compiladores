@@ -14,44 +14,26 @@
 #include <string.h>
 #include <symtab.h>
 #include <parser.h>
-#include <stack.h>
+#include <calculator.h>
 
 int lookahead;
-double acc; // acumulador
-
-double calc(char signal,double acc, double stackValue){
-    switch (signal)
-    {
-    case '+':
-        return stackValue + acc;
-    case '-':
-        return stackValue - acc;
-    case '*':
-        return stackValue * acc;
-    case '/':
-        if (acc == 0) return 0;
-        return stackValue / acc;
-    default:
-        break;
-    }
-};
 
 // oplus = '+' || '-'
 // E -> [oplus] T {oplus T}
 void E(void)
 {
     /*0*/ int oplus = 0, signal = 0; /*0*/
+    acc = 0;
     if (lookahead == '+' || lookahead == '-')
     {
         !(lookahead == '-') || (signal = lookahead);
         match(lookahead);
     }
 _T:
-    T(); // valor computado aqui é armazenado em acc
+    T();
     /*1*/
     if (signal)
     {
-        printf("\tneg acc");
         acc = -acc;
         signal = 0;
     }
@@ -63,17 +45,14 @@ _T:
         switch (oplus)
         {
         case '+':
-            printf("\tadd acc, stack[sp]\n");
             acc = calc('+', acc, stack[sp]);
             push(acc);
             break;
         case '-':
-            printf("\tsub acc, stack[sp]\n");
             acc = calc('-', acc, stack[sp]);
             push(acc);
             break;
         }
-        printf("\tpop acc\n");
         acc = pop();
         oplus = 0;
     }
@@ -83,7 +62,6 @@ _T:
     {
         /*3*/
         oplus = lookahead;
-        printf("\tpush acc\n");
         push(acc);
         /*3*/
         match(lookahead);
@@ -91,6 +69,7 @@ _T:
     }
 }
 
+// times = '*' || '/'
 // T -> F {otimes F}
 void T(void)
 {
@@ -102,13 +81,11 @@ _F:
     switch (otimes)
     {
     case '*':
-        printf("\tmul stack[sp], acc\n", otimes);
         acc = calc('*', acc, stack[sp]);
         push(acc);
         otimes = 0;
         break;
     case '/':
-        printf("\tdiv stack[sp], acc\n", otimes);
         acc = calc('/', acc, stack[sp]);
         push(acc);
         otimes = 0;
@@ -119,7 +96,6 @@ _F:
     if (lookahead == '*' || lookahead == '/')
     {
         /*2*/ otimes = lookahead; /*2*/
-        printf("\tpush acc\n");
         push(acc);
         match(lookahead);
         goto _F;
@@ -139,37 +115,33 @@ void F(void)
         match(')');
         break;
     case NUM:
-        /*1*/ printf("\tmov %s, acc\n", lexeme); /*1*/
-        acc = strtod(lexeme, NULL);
+        /*1*/ acc = atof(lexeme); /*1*/
         match(NUM);
         break;
+    /*2*/
     case ';':
         match(';');
         break;
+    /*2*/
     default:
-        /*2*/ strcpy(varname, lexeme); /*2*/
+        /*3*/ strcpy(varname, lexeme); /*3*/
         match(ID);
         if (lookahead == ASGN)
         {
-            // L-value (variavel de atribuição)
             match(ASGN);
             E();
-            /*3*/ printf("\tstore acc,%s\t%f\n", varname, acc); /*3*/
-            store(varname, acc);
+            /*4*/ store(varname, acc); /*4*/
         }
         else
         {
-            ;
-            // R-value (variavel de consulta)
-            /*4*/
-            printf("\tacc = recall(%s)\n", varname);
-            acc = recall(varname);
-            /*4*/
-            printf("%f\n", acc);
+            /*5*/ acc = recall(varname); /*5*/
         }
     }
 }
 
+/*
+    match compara o valor de lookahead com um valor esperado
+*/
 void match(int expected)
 {
     if (lookahead == expected)

@@ -10,8 +10,7 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <stdio.h>
-#include <math.h>
+#include <calculator.h>
 #include <parser.h>
 #include <lexer.h>
 
@@ -21,16 +20,12 @@ int main()
 {
    source = stdin;
    lookahead = gettoken(source);
-   while (1)
+   int i = 0;
+   while (lookahead != EOF)
    {
       E();
-      if (acc == floor(acc))
-      {
-         printf("%.0f\n", acc);
-      }
-      else
-      {
-         printf("%f\n", acc);
+      if (lookahead == ';' || lookahead == '\n') {
+         print_acc();
       }
    }
 
