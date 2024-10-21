@@ -88,13 +88,80 @@ int isDEC(FILE *tape)
 
 int isNUM(FILE *tape)
 {
-    /*
-        TO DO:
-        implementar da maneira tradicional, vide isDEC, isOCT, ...
-        ou usando fscanf com scanset, contador de caracteres, e  lexval (variavel double analoga ao lexeme)
-    */
-    // enquanto isNUM Não é implementado, apenas para testes usaremos a logica de isDEC com o retorno modificado
-    return isDEC(tape);
+    int i = 0;
+
+    if (isdigit(lexeme[i] = getc(tape)))
+    {
+        ++i;
+        if (lexeme[i] == '0')
+        {
+
+            return DEC;
+        }
+        while (isdigit(lexeme[i] = getc(tape)))
+            ++i;
+
+        // Verifica se o numero é um ponto flutuante
+        if (lexeme[i] == '.')
+        {
+            ++i;
+            while (isdigit(lexeme[i] = getc(tape)))
+                ++i;
+
+            // |"e"("+"|"-")[0-9]*)
+            if (lexeme[i] == 'e')
+            {
+                ++i;
+                lexeme[i] = getc(tape);
+                if (lexeme[i] == '+')
+                {
+                    ++i;
+                    while (isdigit(lexeme[i] = getc(tape)))
+                        ++i;
+
+                    ungetc(lexeme[i], tape);
+                    lexeme[i] = 0;
+                    return NUM;
+                }
+                if (lexeme[i] == '-')
+                {
+                    ++i;
+                    while (isdigit(lexeme[i] = getc(tape)))
+                        ++i;
+
+                    ungetc(lexeme[i], tape);
+                    lexeme[i] = 0;
+                    return NUM;
+                }
+            }
+
+            ungetc(lexeme[i], tape);
+            lexeme[i] = 0;
+            return NUM;
+        }
+
+        ungetc(lexeme[i], tape);
+        lexeme[i] = 0;
+        return NUM;
+    }
+
+    if (lexeme[i] == '.')
+    {
+        lexeme[i] = '0';
+        ++i;
+        lexeme[i] = '.';
+        ++i;
+        while (isdigit(lexeme[i] = getc(tape)))
+            ++i;
+
+        ungetc(lexeme[i], tape);
+        lexeme[i] = 0;
+        return NUM;
+    }
+
+    ungetc(lexeme[i], tape);
+    lexeme[i] = 0;
+    return 0;
 }
 
 /*
@@ -153,10 +220,10 @@ void skipspaces(FILE *tape)
     int head;
     while (isspace(head = getc(tape)))
     {
-        if (head == '\n'){
+        if (head == '\n')
+        {
             ungetc(';', tape);
             return;
-
         }
     };
     ungetc(head, tape);
