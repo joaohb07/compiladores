@@ -86,6 +86,7 @@ int isDEC(FILE *tape)
     return 0;
 }
 
+// //=[0-9]|([0-9]*)"."(([0-9]*)|"e"("+"|"-")[0-9]*)
 int isNUM(FILE *tape)
 {
     int i = 0;
@@ -101,12 +102,14 @@ int isNUM(FILE *tape)
         while (isdigit(lexeme[i] = getc(tape)))
             ++i;
 
+        // Verifica se o numero é um ponto flutuante
         if (lexeme[i] == '.')
         {
             ++i;
             while (isdigit(lexeme[i] = getc(tape)))
                 ++i;
 
+            // |"e"("+"|"-")[0-9]*)
             if (lexeme[i] == 'e')
             {
                 ++i;
