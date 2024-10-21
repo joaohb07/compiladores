@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <lexer.h>
 
-char lexeme[MAXIDLEN + 1];
+char lexeme[MAXIDLEN + 1];  // Armazena o valor numérico lido como string
 
 // ID = [A-Za-z][A-Za-z0-9]*
 int isID(FILE *tape)
@@ -49,7 +49,6 @@ int isASGN(FILE *tape)
         lexeme[i] = getc(tape);
         if (lexeme[i] == '=')
         {
-            // ungetc(lexeme[i], tape);
             lexeme[i] = 0;
             return ASGN;
         }
@@ -62,101 +61,64 @@ int isASGN(FILE *tape)
     return 0;
 }
 
-// // DEC = [1-9][0-9]* | 0
-int isDEC(FILE *tape)
-{
-    int i = 0;
-
-    if (isdigit(lexeme[i] = getc(tape)))
-    {
-        ++i;
-        if (lexeme[i] == '0')
-        {
-            return DEC;
-        }
-        while (isdigit(lexeme[i] = getc(tape)))
-            ++i;
-
-        ungetc(lexeme[i], tape);
-        lexeme[i] = 0;
-        return NUM;
-    }
-    ungetc(lexeme[i], tape);
-    lexeme[i] = 0;
-    return 0;
-}
-
 int isNUM(FILE *tape)
 {
-    /*
-        TO DO:
-        implementar da maneira tradicional, vide isDEC, isOCT, ...
-        ou usando fscanf com scanset, contador de caracteres, e  lexval (variavel double analoga ao lexeme)
-    */
-    // enquanto isNUM Não é implementado, apenas para testes usaremos a logica de isDEC com o retorno modificado
-    return isDEC(tape);
-}
-
-/*
-
-// OCT = 0[0-7]+
-int isOCT(FILE *tape)
-{
     int i = 0;
-    lexeme[i] = getc(tape);
-    if (lexeme[i] == '0')
+    char c;
+
+    // Primeira leitura de dígitos ou ponto
+    c = getc(tape);
+    if (isdigit(c) || c == '.')
     {
-        ++i;
-        lexeme[i] = getc(tape);
-        while (lexeme[i] >= '0' && lexeme[i] <= '7')
+        lexeme[i++] = c;
+
+        // Continua lendo dígitos
+        while ((c = getc(tape)) && (isdigit(c) || c == '.'))
         {
-            ++i;
-            lexeme[i] = getc(tape);
+            lexeme[i++] = c;
         }
-        ungetc(lexeme[i], tape);
-        lexeme[i] = 0;
-        return OCT;
+
+        // Verifica se encontrou notação científica
+        if (c == 'e' || c == 'E')
+        {
+            lexeme[i++] = c;
+            c = getc(tape);
+
+            // Pode ser seguido de '+' ou '-' no expoente
+            if (c == '+' || c == '-')
+            {
+                lexeme[i++] = c;
+                c = getc(tape);
+            }
+
+            // Continua lendo os dígitos do expoente
+            while (isdigit(c))
+            {
+                lexeme[i++] = c;
+                c = getc(tape);
+            }
+        }
+
+        ungetc(c, tape); // Devolve o último caractere não numérico
+        lexeme[i] = '\0'; // Finaliza a string em lexeme
+        return NUM;
     }
-    ungetc(lexeme[i], tape);
-    lexeme[i] = 0;
+
+    // Se não for um número válido, devolve o caractere lido e retorna 0
+    ungetc(c, tape);
+    lexeme[0] = '\0';
     return 0;
 }
 
-// HEX = 0(x|X)[0-9a-fA-F]+
-int isHEX(FILE *tape)
-{
-    int i = 0;
-    lexeme[i] = getc(tape);
-    if (lexeme[i] == '0')
-    {
-        ++i;
-        lexeme[i] = getc(tape);
-        if (lexeme[i] == 'x' || lexeme[i] == 'X')
-        {
-            ++i;
-            while (isxdigit(lexeme[i] = getc(tape)))
-                ++i;
-            ungetc(lexeme[i], tape);
-            lexeme[i] = 0;
-            return HEX;
-        }
-        ungetc(lexeme[i], tape);
-        --i;
-    }
-    ungetc(lexeme[i], tape);
-    lexeme[i] = 0;
-    return 0;
-}
-*/
 void skipspaces(FILE *tape)
 {
     int head;
     while (isspace(head = getc(tape)))
     {
-        if (head == '\n'){
+        if (head == '\n')
+        {
             ungetc(';', tape);
             return;
-
         }
     };
     ungetc(head, tape);
@@ -172,12 +134,10 @@ int gettoken(FILE *source)
     }
     if ((token = isNUM(source)))
     {
-
         return token;
     }
     if ((token = isASGN(source)))
     {
-
         return token;
     }
     token = getc(source);
