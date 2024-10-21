@@ -24,7 +24,9 @@ int main()
    while (lookahead != EOF)
    {
       E();
-      print_acc();
+      if (lookahead == ';' || lookahead == '\n') {
+         print_acc();
+      }
    }
 
    return 0;
