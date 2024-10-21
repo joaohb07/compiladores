@@ -52,6 +52,7 @@ _T:
     if (signal)
     {
         printf("\tneg acc");
+        acc = -acc;
         signal = 0;
     }
     /*1*/
@@ -118,6 +119,8 @@ _F:
     if (lookahead == '*' || lookahead == '/')
     {
         /*2*/ otimes = lookahead; /*2*/
+        printf("\tpush acc\n");
+        push(acc);
         match(lookahead);
         goto _F;
     };
