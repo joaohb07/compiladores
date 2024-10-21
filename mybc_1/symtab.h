@@ -1,6 +1,4 @@
-#include<lexer.h>
-#define SYMTABSIZE 256
-
+#include<constants.h>
 
 int lookup(char *varname);
 void store(char *varname, double value);
@@ -11,6 +9,6 @@ double recall(char *varname);
 /* memória da calculadora */
 extern double vmem[];
 /* tabela de simbolos */
-extern char symtab[SYMTABSIZE][MAXIDLEN+1];
+extern char symtab[SYMTABSIZE][MAXIDLEN + 1];
 /* symtab_next_entry */
 extern int symtab_next_entry;

@@ -1,0 +1,3 @@
+#define STACKSIZE 1024
+#define MAXIDLEN 32
+#define SYMTABSIZE 256

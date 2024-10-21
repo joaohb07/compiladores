@@ -11,8 +11,7 @@
  *
  ***************************************************/
 #include <stdio.h>
-#define MAXIDLEN 32
-#define SYMTABSIZE 256
+#include <constants.h>
 
 enum
 {

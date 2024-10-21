@@ -10,8 +10,7 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#define STACKSIZE 1024
-
+#include<constants.h>
 extern double acc;              // Acumulador
 extern double stack[STACKSIZE]; // Pilha
 extern int sp;                  // Índice do topo da pilha

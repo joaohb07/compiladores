@@ -22,7 +22,6 @@ int lookahead;
 // E -> [oplus] T {oplus T}
 void E(void)
 {
-
     /*0*/ int oplus = 0, signal = 0; /*0*/
     acc = 0;
     if (lookahead == '+' || lookahead == '-')

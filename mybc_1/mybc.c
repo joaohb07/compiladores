@@ -23,8 +23,7 @@ int main()
    int i = 0;
    while (lookahead != EOF)
    {
-      if (lookahead != ';')
-         E();
+      E();
       print_acc();
    }
 
