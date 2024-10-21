@@ -14,24 +14,27 @@
 #include <string.h>
 #include <symtab.h>
 #include <parser.h>
-
-#define STACKSIZE 1024
-double stack[STACKSIZE]; // pilha vai de 0  a STACKSIZE-1
-int sp = -1;             // inicializado com - 1, pois a pilha está vazia
-
-// TO DO: decidir onde a logica de pilha deve ficar
-double pop()
-{
-    // TO DO: implementar pop da pilha, lembrar de decrementar sp
-}
-
-void push(double val)
-{
-    // TO DO: implementar push da pilha, lembrar de incrementar sp
-}
+#include <stack.h>
 
 int lookahead;
 double acc; // acumulador
+
+double calc(char signal,double acc, double stackValue){
+    switch (signal)
+    {
+    case '+':
+        return stackValue + acc;
+    case '-':
+        return stackValue - acc;
+    case '*':
+        return stackValue * acc;
+    case '/':
+        if (acc == 0) return 0;
+        return stackValue / acc;
+    default:
+        break;
+    }
+};
 
 // oplus = '+' || '-'
 // E -> [oplus] T {oplus T}
@@ -49,6 +52,7 @@ _T:
     if (signal)
     {
         printf("\tneg acc");
+        acc = -acc;
         signal = 0;
     }
     /*1*/
@@ -60,12 +64,17 @@ _T:
         {
         case '+':
             printf("\tadd acc, stack[sp]\n");
+            acc = calc('+', acc, stack[sp]);
+            push(acc);
             break;
         case '-':
             printf("\tsub acc, stack[sp]\n");
+            acc = calc('-', acc, stack[sp]);
+            push(acc);
             break;
         }
         printf("\tpop acc\n");
+        acc = pop();
         oplus = 0;
     }
     /*2*/
@@ -75,6 +84,7 @@ _T:
         /*3*/
         oplus = lookahead;
         printf("\tpush acc\n");
+        push(acc);
         /*3*/
         match(lookahead);
         goto _T;
@@ -93,10 +103,14 @@ _F:
     {
     case '*':
         printf("\tmul stack[sp], acc\n", otimes);
+        acc = calc('*', acc, stack[sp]);
+        push(acc);
         otimes = 0;
         break;
     case '/':
         printf("\tdiv stack[sp], acc\n", otimes);
+        acc = calc('/', acc, stack[sp]);
+        push(acc);
         otimes = 0;
         break;
     }
@@ -105,6 +119,8 @@ _F:
     if (lookahead == '*' || lookahead == '/')
     {
         /*2*/ otimes = lookahead; /*2*/
+        printf("\tpush acc\n");
+        push(acc);
         match(lookahead);
         goto _F;
     };
