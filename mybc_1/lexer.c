@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include <lexer.h>
 
 char lexeme[MAXIDLEN + 1];
@@ -83,6 +84,38 @@ int isNUM(FILE *tape)
     return 0;
 }
 
+int isQUIT(FILE *tape)
+{
+    int i = 0;
+
+    // Lê até o tamanho máximo da palavra "quit"
+    while (i < 4)
+    {
+        lexeme[i] = getc(tape);
+        if (lexeme[i] == EOF)
+        {
+            return 0; // Fim de arquivo ou não formou a palavra
+        }
+        i++;
+    }
+
+    // Adiciona o terminador de string
+    lexeme[i] = '\0';
+
+    // Verifica se a palavra é "quit" ou "QUIT"
+    if (strcmp(lexeme, "quit") == 0 || strcmp(lexeme, "QUIT") == 0)
+    {
+        return QUIT; // Retorna um código específico para QUIT
+    }
+
+    // Se não for "quit", retorna os caracteres para a fita
+    for (int j = i - 1; j >= 0; j--)
+    {
+        ungetc(lexeme[j], tape);
+    }
+    return 0; // Não é um comando QUIT
+}
+
 /*
     skipspaces ignora os espaços em branco e troca fim de linha por ; para delimitar expressões
 */
@@ -111,6 +144,10 @@ int gettoken(FILE *source)
     {
         return token;
     }
+    // if ((token = isQUIT(source)))
+    // {
+    //     return token;
+    // }
     if ((token = isNUM(source)))
     {
         return token;

@@ -21,6 +21,7 @@ enum
     HEX,
     NUM,
     ASGN,
+    QUIT,
 };
 
 extern char lexeme[];

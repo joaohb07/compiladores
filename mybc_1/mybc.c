@@ -21,17 +21,30 @@ int main()
 {
    source = stdin;
    lookahead = gettoken(source);
-   int i = 0;
-   while (lookahead != EOF)
+
+   cmd();
+   while (lookahead == ';' || lookahead == '\n')
    {
-      E();
-      if ((lookahead == ';' || lookahead == '\n') && hasError == false) {
-         print_acc();
-      } else if (hasError) {
-         printf("%s", errorMsg);
-         hasError = false;
-      }
+      match(lookahead);
+      cmd();
    }
+   match(EOF);
+
+   // while (1)
+   // {
+
+   //    // E();
+   //    // if ((lookahead == ';' || lookahead == '\n') && hasError == false)
+   //    // {
+   //    //    print_acc();
+   //    // }
+   //    // else if (hasError)
+   //    // {
+   //    //    printf("%s", errorMsg);
+   //    //    hasError = false;
+   //    // }
+   //    cmd();
+   // }
 
    return 0;
 }

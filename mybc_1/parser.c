@@ -18,6 +18,24 @@
 
 int lookahead;
 
+void cmd(void)
+{
+    switch (lookahead)
+    {
+    
+    // case QUIT:
+    //     exit(0);
+    //     break;
+    case ';':
+    case '\n':
+    case EOF:
+        break;
+    default:
+        E();
+        print_acc();
+    }
+}
+
 // oplus = '+' || '-'
 // E -> [oplus] T {oplus T}
 void E(void)
@@ -118,23 +136,18 @@ void F(void)
         /*1*/ acc = atof(lexeme); /*1*/
         match(NUM);
         break;
-    /*2*/
-    case ';':
-        match(';');
-        break;
-    /*2*/
     default:
-        /*3*/ strcpy(varname, lexeme); /*3*/
+        /*2*/ strcpy(varname, lexeme); /*2*/
         match(ID);
         if (lookahead == ASGN)
         {
             match(ASGN);
             E();
-            /*4*/ store(varname, acc); /*4*/
+            /*3*/ store(varname, acc); /*3*/
         }
         else
         {
-            /*5*/ acc = recall(varname); /*5*/
+            /*4*/ acc = recall(varname); /*4*/
         }
     }
 }

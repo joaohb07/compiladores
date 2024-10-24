@@ -1,14 +1,14 @@
 /***************************************************
  * Compiladores - Noturno - 2024
  * Professor Eraldo Pereira Marinho
- * 
+ *
  * Mybc
- * 
+ *
  * Grupo:
  * Cristian Santos de Castro
  * João Henrique Botelho
  * João Pedro Brum Terra
- * 
+ *
  ***************************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +19,7 @@ extern void match(int expected);
 /* proximo simbolo a ser processado */
 extern int lookahead;
 
+extern void cmd(void);
 extern void E(void);
 extern void T(void);
 extern void F(void);
