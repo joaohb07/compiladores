@@ -13,6 +13,7 @@
 #include <calculator.h>
 #include <parser.h>
 #include <lexer.h>
+#include <stdbool.h>
 
 FILE *source;
 
@@ -24,8 +25,11 @@ int main()
    while (lookahead != EOF)
    {
       E();
-      if (lookahead == ';' || lookahead == '\n') {
+      if ((lookahead == ';' || lookahead == '\n') && hasError == false) {
          print_acc();
+      } else if (hasError) {
+         printf("%s", errorMsg);
+         hasError = false;
       }
    }
 

@@ -11,12 +11,17 @@
  *
  ***************************************************/
 #include <constants.h>
+#include <stdbool.h>
 /* Acumulador*/
 extern double acc;
 /* Pilha*/
 extern double stack[STACKSIZE];
 /*ponteiro do topo da pilha*/
 extern int sp;
+/*Flag de erro*/
+extern bool hasError;
+/*Mensagem de erro*/
+extern char* errorMsg;   
 
 void push(double val);
 double pop();

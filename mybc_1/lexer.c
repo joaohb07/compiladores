@@ -61,44 +61,25 @@ int isASGN(FILE *tape)
     return 0;
 }
 
-// NUM = [0-9]*|([0-9]*)"."(([0-9]*)|"e"("+"|"-")[0-9]*)[0-9]*|([0-9]*)"."(([0-9]*)|"e"("+"|"-")[0-9])
+
+// NUM = [0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])[0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])
 int isNUM(FILE *tape)
 {
-    int i = 0;
-    char c;
+    lexeme[0] = getc(tape);
 
-    c = getc(tape);
-    if (isdigit(c) || c == '.')
+    if (isdigit(lexeme[0]))
     {
-        lexeme[i++] = c;
+        ungetc(lexeme[0], tape);
 
-        while ((c = getc(tape)) && (isdigit(c) || c == '.'))
-        {
-            lexeme[i++] = c;
-        }
+        double lexval;
 
-        if (c == 'e' || c == 'E')
-        {
-            lexeme[i++] = c;
-            c = getc(tape);
+        fscanf(tape, "%f", &lexval);
 
-            if (c == '+' || c == '-')
-            {
-                lexeme[i++] = c;
-                c = getc(tape);
-            }
+        sprintf(lexeme, "%f", lexval);
 
-            while (isdigit(c))
-            {
-                lexeme[i++] = c;
-                c = getc(tape);
-            }
-        }
-        ungetc(c, tape);
-        lexeme[i] = '\0';
         return NUM;
     }
-    ungetc(c, tape);
+    ungetc(lexeme[0], tape);
     lexeme[0] = '\0';
     return 0;
 }
