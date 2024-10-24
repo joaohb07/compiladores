@@ -45,11 +45,11 @@ _T:
         switch (oplus)
         {
         case '+':
-            acc = calc('+', acc, stack[sp]);
+            acc = calc('+', acc, pop());
             push(acc);
             break;
         case '-':
-            acc = calc('-', acc, stack[sp]);
+            acc = calc('-', acc, pop());
             push(acc);
             break;
         }
@@ -81,12 +81,12 @@ _F:
     switch (otimes)
     {
     case '*':
-        acc = calc('*', acc, stack[sp]);
+        acc = calc('*', acc, pop());
         push(acc);
         otimes = 0;
         break;
     case '/':
-        acc = calc('/', acc, stack[sp]);
+        acc = calc('/', acc, pop());
         push(acc);
         otimes = 0;
         break;

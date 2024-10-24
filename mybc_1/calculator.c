@@ -14,10 +14,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <calculator.h>
+#include <stdbool.h>
 
 double acc;            
 double stack[STACKSIZE];
-int sp = -1;            
+int sp = -1;
+bool hasError = false;
+char* errorMsg;            
 
 /*
     pop desempilha
@@ -61,8 +64,11 @@ double calc(char signal, double acc, double stackValue)
     case '*':
         return stackValue * acc;
     case '/':
-        if (acc == 0)
-            return 0;
+        if (acc == 0){
+            errorMsg = "Cannot divide by 0!\n";
+            hasError = true;
+            break;
+        }
         return stackValue / acc;
     default:
         break;
