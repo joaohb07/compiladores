@@ -48,6 +48,8 @@ void store(char *varname, double value)
         i = symtab_next_entry;
         strcpy(symtab[i], varname);
         vmem[i] = value;
+    }else{
+        vmem[i] = value;
     }
     symtab_next_entry++;
 }

@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <lexer.h>
 
-char lexeme[MAXIDLEN + 1]; 
+char lexeme[MAXIDLEN + 1];
 
 // ID = [A-Za-z][A-Za-z0-9]*
 int isID(FILE *tape)
@@ -61,7 +61,6 @@ int isASGN(FILE *tape)
     return 0;
 }
 
-
 // NUM = [0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])[0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])
 int isNUM(FILE *tape)
 {
@@ -71,7 +70,7 @@ int isNUM(FILE *tape)
     {
         ungetc(lexeme[0], tape);
 
-        double lexval;
+        float lexval;
 
         fscanf(tape, "%f", &lexval);
 
