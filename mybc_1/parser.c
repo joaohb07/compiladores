@@ -22,7 +22,7 @@ void cmd(void)
 {
     switch (lookahead)
     {
-    
+
     // case QUIT:
     //     exit(0);
     //     break;
@@ -96,18 +96,21 @@ _F:
     F();
 
     /*1*/
-    switch (otimes)
+    if (otimes)
     {
-    case '*':
-        acc = calc('*', acc, pop());
-        push(acc);
+        switch (otimes)
+        {
+        case '*':
+            acc = calc('*', acc, pop());
+            push(acc);
+            break;
+        case '/':
+            acc = calc('/', acc, pop());
+            push(acc);
+            break;
+        }
+        acc = pop();
         otimes = 0;
-        break;
-    case '/':
-        acc = calc('/', acc, pop());
-        push(acc);
-        otimes = 0;
-        break;
     }
     /*1*/
 
