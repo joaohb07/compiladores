@@ -98,7 +98,7 @@ int isNUM(FILE *tape)
 {
     lexeme[0] = getc(tape);
 
-    if (isdigit(lexeme[0]))
+    if (isdigit(lexeme[0]) || lexeme[0]=='.')
     {
         ungetc(lexeme[0], tape);
 
