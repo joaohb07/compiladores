@@ -10,34 +10,47 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <lexer.h>
 #include <string.h>
-#include <symtab.h>
-#include <parser.h>
 #include <calculator.h>
+#include <symtab.h>
+#include <lexer.h>
+#include <parser.h>
 
 int lookahead;
 
+/*
+    cmd verifica se lookahead é um comando de saída ou fim de expressão,
+    caso não seja nenhum desses, a expressão matematica é processada e depois impressa.
+*/
 void cmd(void)
 {
     switch (lookahead)
     {
-
-    // case QUIT:
-    //     exit(0);
-    //     break;
+    case QUIT:
+        exit(0);
+        break;
     case ';':
     case '\n':
     case EOF:
         break;
     default:
         E();
-        print_acc();
+        if (hasError)
+        {
+            fprintf(stderr, errorMsg);
+            hasError = false;
+        }
+        else
+        {
+            print_acc();
+        }
     }
 }
 
-// oplus = '+' || '-'
-// E -> [oplus] T {oplus T}
+/*
+    oplus = '+' || '-'
+    E -> [oplus] T {oplus T}
+*/
 void E(void)
 {
     /*0*/ int oplus = 0, signal = 0; /*0*/
@@ -65,6 +78,7 @@ _T:
         case '+':
             acc = calc('+', acc, pop());
             push(acc);
+            push(acc);
             break;
         case '-':
             acc = calc('-', acc, pop());
@@ -87,8 +101,10 @@ _T:
     }
 }
 
-// times = '*' || '/'
-// T -> F {otimes F}
+/*
+    times = '*' || '/'
+    T -> F {otimes F}
+*/
 void T(void)
 {
     /*0*/ int otimes = 0; /*0*/
@@ -123,7 +139,9 @@ _F:
     };
 }
 
-// F -> (E) | NUM | ID
+/*
+    F -> (E) | NUM | ID
+*/
 void F(void)
 {
     /*0*/ char varname[MAXIDLEN + 1]; /*0*/
@@ -164,7 +182,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch: expected %d, got %c ascii(%d)\n", expected, lookahead, lookahead);
+        fprintf(stderr, "token mismatch: expected %d, got %d.\n", expected, lookahead);
         exit(-3);
     }
 }

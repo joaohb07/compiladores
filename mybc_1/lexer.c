@@ -10,15 +10,36 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <stdio.h>
 #include <ctype.h>
-#include <stdlib.h>
 #include <string.h>
+#include <constants.h>
 #include <lexer.h>
 
 char lexeme[MAXIDLEN + 1];
 
-// ID = [A-Za-z][A-Za-z0-9]*
+/*
+    QUIT = "quit"| "exit" (case insensitive)
+*/
+int isQUIT(char *input)
+{
+    for (int i = 0; i < strlen(input); ++i)
+    {
+        input[i] = tolower(input[i]);
+    }
+
+    if (strcmp(input, "quit") == 0 || strcmp(input, "exit") == 0)
+    {
+        return QUIT;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/*
+    ID = [A-Za-z][A-Za-z0-9]*
+*/
 int isID(FILE *tape)
 {
     int i = 0;
@@ -32,6 +53,12 @@ int isID(FILE *tape)
         ungetc(lexeme[i], tape);
         lexeme[i] = 0;
 
+        int token = isQUIT(lexeme);
+        if (token)
+        {
+            return token;
+        }
+
         return ID;
     }
     ungetc(lexeme[i], tape);
@@ -39,7 +66,9 @@ int isID(FILE *tape)
     return 0;
 }
 
-// ASGN = ":="
+/*
+    ASGN = ":="
+*/
 int isASGN(FILE *tape)
 {
     int i = 0;
@@ -62,7 +91,9 @@ int isASGN(FILE *tape)
     return 0;
 }
 
-// NUM = [0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])[0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])
+/*
+    NUM = [0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])[0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])
+*/
 int isNUM(FILE *tape)
 {
     lexeme[0] = getc(tape);
@@ -82,38 +113,6 @@ int isNUM(FILE *tape)
     ungetc(lexeme[0], tape);
     lexeme[0] = '\0';
     return 0;
-}
-
-int isQUIT(FILE *tape)
-{
-    int i = 0;
-
-    // Lê até o tamanho máximo da palavra "quit"
-    while (i < 4)
-    {
-        lexeme[i] = getc(tape);
-        if (lexeme[i] == EOF)
-        {
-            return 0; // Fim de arquivo ou não formou a palavra
-        }
-        i++;
-    }
-
-    // Adiciona o terminador de string
-    lexeme[i] = '\0';
-
-    // Verifica se a palavra é "quit" ou "QUIT"
-    if (strcmp(lexeme, "quit") == 0 || strcmp(lexeme, "QUIT") == 0)
-    {
-        return QUIT; // Retorna um código específico para QUIT
-    }
-
-    // Se não for "quit", retorna os caracteres para a fita
-    for (int j = i - 1; j >= 0; j--)
-    {
-        ungetc(lexeme[j], tape);
-    }
-    return 0; // Não é um comando QUIT
 }
 
 /*
@@ -144,10 +143,6 @@ int gettoken(FILE *source)
     {
         return token;
     }
-    // if ((token = isQUIT(source)))
-    // {
-    //     return token;
-    // }
     if ((token = isNUM(source)))
     {
         return token;
