@@ -78,7 +78,6 @@ _T:
         case '+':
             acc = calc('+', acc, pop());
             push(acc);
-            push(acc);
             break;
         case '-':
             acc = calc('-', acc, pop());
