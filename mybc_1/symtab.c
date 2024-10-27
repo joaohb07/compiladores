@@ -11,7 +11,6 @@
  *
  ***************************************************/
 #include <string.h>
-#include <stdlib.h>
 #include <symtab.h>
 
 double vmem[SYMTABSIZE];
@@ -48,7 +47,9 @@ void store(char *varname, double value)
         i = symtab_next_entry;
         strcpy(symtab[i], varname);
         vmem[i] = value;
-    }else{
+    }
+    else
+    {
         vmem[i] = value;
     }
     symtab_next_entry++;

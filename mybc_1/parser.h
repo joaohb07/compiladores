@@ -14,12 +14,11 @@
 #include <stdlib.h>
 
 extern FILE *source;
-extern void match(int expected);
-
 /* proximo simbolo a ser processado */
 extern int lookahead;
-
+extern void match(int expected);
 extern void cmd(void);
-extern void E(void);
-extern void T(void);
-extern void F(void);
+
+void E(void);
+void T(void);
+void F(void);

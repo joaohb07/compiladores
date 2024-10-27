@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <constants.h>
 
-enum
+enum tokens
 {
     ID = 1024,
     DEC,

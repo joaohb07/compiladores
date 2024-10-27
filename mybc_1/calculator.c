@@ -13,14 +13,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <calculator.h>
 #include <stdbool.h>
+#include <calculator.h>
 
-double acc;            
+double acc;
 double stack[STACKSIZE];
 int sp = -1;
 bool hasError = false;
-char* errorMsg;            
+char *errorMsg;
 
 /*
     pop desempilha
@@ -28,13 +28,15 @@ char* errorMsg;
 double pop()
 {
     if (sp == -1)
-    { // Verifica se a pilha está vazia
-        fprintf(stderr, "Error: Empty stack!.\n");
-        exit(EXIT_FAILURE);
+    {
+        errorMsg = STACK_UNDERFLOW_ERROR;
+        hasError = true;
+        sp = -1;
+        return -1;
     }
     double result = stack[sp];
     sp--;
-    return result; // Retorna o valor e decrementa sp
+    return result;
 }
 
 /*
@@ -43,38 +45,41 @@ double pop()
 void push(double val)
 {
     if (sp == STACKSIZE - 1)
-    { // Verifica se a pilha está cheia
-        fprintf(stderr, "Error: Full stack! %f.\n", val);
-        exit(EXIT_FAILURE);
+    {
+        errorMsg = STACK_OVERFLOW_ERROR;
+        hasError = true;
+        sp = -1;
+        return;
     }
     ++sp;
-    stack[sp] = val; // Incrementa sp e armazena o valor
+    stack[sp] = val;
 }
+
 /*
     calc realiza as quatro operações basicas + - * e /
 */
-double calc(char signal, double acc, double stackValue)
+double calc(char op, double a, double b)
 {
-    switch (signal)
+    switch (op)
     {
     case '+':
-        return stackValue + acc;
+        return b + a;
     case '-':
-        return stackValue - acc;
+        return b - a;
     case '*':
-        return stackValue * acc;
+        return b * a;
     case '/':
-        if (acc == 0){
-            errorMsg = "Cannot divide by 0!\n";
+        if (a == 0)
+        {
+            errorMsg = ZERO_DIVISION_ERROR;
             hasError = true;
             break;
         }
-        return stackValue / acc;
+        return b / a;
     default:
         break;
     }
 };
-
 
 /*
     print_acc imprime o valor do acumulador

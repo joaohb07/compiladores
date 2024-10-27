@@ -10,10 +10,8 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <calculator.h>
 #include <parser.h>
 #include <lexer.h>
-#include <stdbool.h>
 
 FILE *source;
 
@@ -29,22 +27,6 @@ int main()
       cmd();
    }
    match(EOF);
-
-   // while (1)
-   // {
-
-   //    // E();
-   //    // if ((lookahead == ';' || lookahead == '\n') && hasError == false)
-   //    // {
-   //    //    print_acc();
-   //    // }
-   //    // else if (hasError)
-   //    // {
-   //    //    printf("%s", errorMsg);
-   //    //    hasError = false;
-   //    // }
-   //    cmd();
-   // }
 
    return 0;
 }

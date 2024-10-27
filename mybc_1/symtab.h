@@ -1,4 +1,4 @@
-#include<constants.h>
+#include <constants.h>
 
 int lookup(char *varname);
 void store(char *varname, double value);
