@@ -42,7 +42,7 @@ void cmd(void)
         }
         else
         {
-            print_acc();
+            printf("%g\n", acc);
         }
     }
 }

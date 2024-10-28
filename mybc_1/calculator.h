@@ -26,5 +26,4 @@ extern char *errorMsg;
 
 void push(double val);
 double pop();
-void print_acc();
 double calc(char signal, double acc, double stackValue);

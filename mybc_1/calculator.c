@@ -80,18 +80,3 @@ double calc(char op, double a, double b)
         break;
     }
 };
-
-/*
-    print_acc imprime o valor do acumulador
-*/
-void print_acc()
-{
-    if (acc == floor(acc))
-    {
-        printf("%.0f\n", acc);
-    }
-    else
-    {
-        printf("%f\n", acc);
-    }
-}
