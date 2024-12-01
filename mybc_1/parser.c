@@ -181,7 +181,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch: expected %d, got %d.\n", expected, lookahead);
-        exit(-3);
+        errorMsg = SYNTAX_ERROR;
+        hasError = true;
     }
 }
