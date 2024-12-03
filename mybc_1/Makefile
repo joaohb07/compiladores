@@ -16,7 +16,6 @@ relocatable = mybc.o lexer.o parser.o symtab.o calculator.o
 mybc: $(relocatable)
 	$(CC) -o mybc $(relocatable) -lm
 clean: 
-	$(RM) *.o mybc
+	$(RM) *.o
 mostlyclean:
-	$(RM) *.o mybc
-
+	$(RM) *~ mybc

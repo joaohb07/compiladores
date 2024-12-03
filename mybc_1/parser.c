@@ -35,6 +35,8 @@ void cmd(void)
         break;
     default:
         E();
+        // Caso ocorra algum erro, o valor no acumulador não é exibido em tela;
+        // Após imprimir uma mensagem de erro, a flag hasError é resetada.
         if (hasError)
         {
             fprintf(stderr, errorMsg);
