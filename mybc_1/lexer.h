@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <constants.h>
 
-enum
+enum tokens
 {
     ID = 1024,
     DEC,
@@ -21,6 +21,7 @@ enum
     HEX,
     NUM,
     ASGN,
+    QUIT,
 };
 
 extern char lexeme[];

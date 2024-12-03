@@ -10,8 +10,9 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <constants.h>
 #include <stdbool.h>
+#include <constants.h>
+
 /* Acumulador*/
 extern double acc;
 /* Pilha*/
@@ -21,9 +22,8 @@ extern int sp;
 /*Flag de erro*/
 extern bool hasError;
 /*Mensagem de erro*/
-extern char* errorMsg;   
+extern char *errorMsg;
 
 void push(double val);
 double pop();
-void print_acc();
 double calc(char signal, double acc, double stackValue);

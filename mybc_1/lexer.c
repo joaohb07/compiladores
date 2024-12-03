@@ -10,14 +10,36 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <stdio.h>
 #include <ctype.h>
-#include <stdlib.h>
+#include <string.h>
+#include <constants.h>
 #include <lexer.h>
 
-char lexeme[MAXIDLEN + 1]; 
+char lexeme[MAXIDLEN + 1];
 
-// ID = [A-Za-z][A-Za-z0-9]*
+/*
+    QUIT = "quit"| "exit" (case insensitive)
+*/
+int isQUIT(char *input)
+{
+    for (int i = 0; i < strlen(input); ++i)
+    {
+        input[i] = tolower(input[i]);
+    }
+
+    if (strcmp(input, "quit") == 0 || strcmp(input, "exit") == 0)
+    {
+        return QUIT;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/*
+    ID = [A-Za-z][A-Za-z0-9]*
+*/
 int isID(FILE *tape)
 {
     int i = 0;
@@ -31,6 +53,12 @@ int isID(FILE *tape)
         ungetc(lexeme[i], tape);
         lexeme[i] = 0;
 
+        int token = isQUIT(lexeme);
+        if (token)
+        {
+            return token;
+        }
+
         return ID;
     }
     ungetc(lexeme[i], tape);
@@ -38,7 +66,9 @@ int isID(FILE *tape)
     return 0;
 }
 
-// ASGN = ":="
+/*
+    ASGN = ":="
+*/
 int isASGN(FILE *tape)
 {
     int i = 0;
@@ -61,17 +91,18 @@ int isASGN(FILE *tape)
     return 0;
 }
 
-
-// NUM = [0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])[0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])
+/*
+    NUM = [0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])[0-9]|([0-9])"."(([0-9])|"e"("+"|"-")[0-9])
+*/
 int isNUM(FILE *tape)
 {
     lexeme[0] = getc(tape);
 
-    if (isdigit(lexeme[0]))
+    if (isdigit(lexeme[0]) || lexeme[0]=='.')
     {
         ungetc(lexeme[0], tape);
 
-        double lexval;
+        float lexval;
 
         fscanf(tape, "%f", &lexval);
 

@@ -11,7 +11,6 @@
  *
  ***************************************************/
 #include <string.h>
-#include <stdlib.h>
 #include <symtab.h>
 
 double vmem[SYMTABSIZE];
@@ -31,7 +30,7 @@ int lookup(char *varname)
     }
     if (i == symtab_next_entry)
     {
-        return -1; // no achou varname em symtab
+        return -1; // não achou varname em symtab
     }
     return i;
 }
@@ -47,6 +46,10 @@ void store(char *varname, double value)
     {
         i = symtab_next_entry;
         strcpy(symtab[i], varname);
+        vmem[i] = value;
+    }
+    else
+    {
         vmem[i] = value;
     }
     symtab_next_entry++;

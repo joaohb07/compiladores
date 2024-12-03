@@ -10,16 +10,49 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <lexer.h>
 #include <string.h>
-#include <symtab.h>
-#include <parser.h>
 #include <calculator.h>
+#include <symtab.h>
+#include <lexer.h>
+#include <parser.h>
 
 int lookahead;
 
-// oplus = '+' || '-'
-// E -> [oplus] T {oplus T}
+/*
+    cmd verifica se lookahead é um comando de saída ou fim de expressão,
+    caso não seja nenhum desses, a expressão matematica é processada e depois impressa.
+*/
+void cmd(void)
+{
+    switch (lookahead)
+    {
+    case QUIT:
+        exit(0);
+        break;
+    case ';':
+    case '\n':
+    case EOF:
+        break;
+    default:
+        E();
+        // Caso ocorra algum erro, o valor no acumulador não é exibido em tela;
+        // Após imprimir uma mensagem de erro, a flag hasError é resetada.
+        if (hasError)
+        {
+            fprintf(stderr, errorMsg);
+            hasError = false;
+        }
+        else
+        {
+            printf("%g\n", acc);
+        }
+    }
+}
+
+/*
+    oplus = '+' || '-'
+    E -> [oplus] T {oplus T}
+*/
 void E(void)
 {
     /*0*/ int oplus = 0, signal = 0; /*0*/
@@ -69,8 +102,10 @@ _T:
     }
 }
 
-// times = '*' || '/'
-// T -> F {otimes F}
+/*
+    times = '*' || '/'
+    T -> F {otimes F}
+*/
 void T(void)
 {
     /*0*/ int otimes = 0; /*0*/
@@ -78,18 +113,21 @@ _F:
     F();
 
     /*1*/
-    switch (otimes)
+    if (otimes)
     {
-    case '*':
-        acc = calc('*', acc, pop());
-        push(acc);
+        switch (otimes)
+        {
+        case '*':
+            acc = calc('*', acc, pop());
+            push(acc);
+            break;
+        case '/':
+            acc = calc('/', acc, pop());
+            push(acc);
+            break;
+        }
+        acc = pop();
         otimes = 0;
-        break;
-    case '/':
-        acc = calc('/', acc, pop());
-        push(acc);
-        otimes = 0;
-        break;
     }
     /*1*/
 
@@ -102,7 +140,9 @@ _F:
     };
 }
 
-// F -> (E) | NUM | ID
+/*
+    F -> (E) | NUM | ID
+*/
 void F(void)
 {
     /*0*/ char varname[MAXIDLEN + 1]; /*0*/
@@ -118,23 +158,18 @@ void F(void)
         /*1*/ acc = atof(lexeme); /*1*/
         match(NUM);
         break;
-    /*2*/
-    case ';':
-        match(';');
-        break;
-    /*2*/
     default:
-        /*3*/ strcpy(varname, lexeme); /*3*/
+        /*2*/ strcpy(varname, lexeme); /*2*/
         match(ID);
         if (lookahead == ASGN)
         {
             match(ASGN);
             E();
-            /*4*/ store(varname, acc); /*4*/
+            /*3*/ store(varname, acc); /*3*/
         }
         else
         {
-            /*5*/ acc = recall(varname); /*5*/
+            /*4*/ acc = recall(varname); /*4*/
         }
     }
 }
@@ -148,7 +183,7 @@ void match(int expected)
         lookahead = gettoken(source);
     else
     {
-        fprintf(stderr, "token mismatch: expected %d, got %c ascii(%d)\n", expected, lookahead, lookahead);
-        exit(-3);
+        errorMsg = SYNTAX_ERROR;
+        hasError = true;
     }
 }

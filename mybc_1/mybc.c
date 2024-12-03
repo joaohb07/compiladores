@@ -10,10 +10,8 @@
  * João Pedro Brum Terra
  *
  ***************************************************/
-#include <calculator.h>
 #include <parser.h>
 #include <lexer.h>
-#include <stdbool.h>
 
 FILE *source;
 
@@ -21,17 +19,14 @@ int main()
 {
    source = stdin;
    lookahead = gettoken(source);
-   int i = 0;
-   while (lookahead != EOF)
+
+   cmd();
+   while (lookahead == ';' || lookahead == '\n')
    {
-      E();
-      if ((lookahead == ';' || lookahead == '\n') && hasError == false) {
-         print_acc();
-      } else if (hasError) {
-         printf("%s", errorMsg);
-         hasError = false;
-      }
+      match(lookahead);
+      cmd();
    }
+   match(EOF);
 
    return 0;
 }
